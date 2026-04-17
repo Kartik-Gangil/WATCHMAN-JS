@@ -12,5 +12,9 @@
   "packageManager": "pnpm@10.12.3",
   "devDependencies": {
     "typescript": "^6.0.3"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.3"
   }
 }
