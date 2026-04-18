@@ -1,2 +1,3 @@
-export { github, githubCallback } from './github'
+export { GithubLogin, GithubCallback } from './github'
+export { GoogleLogin, GoogleCallback } from './google'
 

@@ -1,12 +1,12 @@
 
-const github = async (baseURL: string, clientId: string) => {
+const GithubLogin = async (redirectURL: string, clientId: string) => {
 
     const redirectUrl =
-        `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user&redirect_uri=${baseURL}/api/auth/github/callback`
+        `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user&redirect_uri=${redirectURL}`
     return redirectUrl;
 }
 
-const githubCallback = async (code: string, client_id: string, client_secret: string) => {
+const GithubCallback = async (code: string, client_id: string, client_secret: string) => {
     const response = await fetch(`https://github.com/login/oauth/access_token`,
         {
             method: 'POST',
@@ -39,4 +39,4 @@ const githubCallback = async (code: string, client_id: string, client_secret: st
 
 }
 
-export { github, githubCallback }
+export { GithubLogin, GithubCallback }
