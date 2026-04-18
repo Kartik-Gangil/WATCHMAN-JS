@@ -1,10 +1,10 @@
-const jwt = require('jsonwebtoken');
+// import jwt from 'jsonwebtoken';
 
-const signJWT = (payload: any, time: string) => {
-  const token = jwt.sign(
-    payload,
-    process.env.JWT_SECRET!,
-    { expiresIn: time || "1h" }
-  );
-  return token;
-}
+// const signJWT = (payload: any, time: string) => {
+//   const token = jwt.sign(
+//     payload,
+//     process.env.JWT_SECRET!,
+//     { expiresIn: time || "1h" }
+//   );
+//   return token;
+// }

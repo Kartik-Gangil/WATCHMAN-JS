@@ -1,27 +1,28 @@
-const jwt = require('jsonwebtoken');
 
-const github = async (baseURL: string) => {
-    const clientId = process.env.GITHUB_CLIENT_ID!;
+const github = async (baseURL: string, clientId: string) => {
+
     const redirectUrl =
         `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user&redirect_uri=${baseURL}/api/auth/github/callback`
     return redirectUrl;
 }
 
-const githubCallback = async (code: string, time: string) => {
+const githubCallback = async (code: string, client_id: string, client_secret: string) => {
     const response = await fetch(`https://github.com/login/oauth/access_token`,
         {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             body: JSON.stringify({
-                client_id: process.env.GITHUB_CLIENT_ID!,
-                client_secret: process.env.GITHUB_CLIENT_SECRET!,
-                code: code
+                client_id,
+                client_secret,
+                code
             })
         }
     )
-    const accessToken = response?.data?.access_token;
+    const data = await response.json();
+    const accessToken = data?.access_token;
     // get user data
 
     const user = await fetch("https://api.github.com/user", {
@@ -30,7 +31,8 @@ const githubCallback = async (code: string, time: string) => {
             "Authorization": `Bearer ${accessToken}`
         }
     })
-    const githubUser = user?.data;
+    const userdata = await user.json();
+    const githubUser = userdata;
 
 
     return { user: githubUser, accessToken }
