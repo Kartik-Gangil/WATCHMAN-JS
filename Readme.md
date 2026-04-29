@@ -27,7 +27,7 @@ WATCHMAN JS is a lightweight authentication library that simplifies OAuth integr
 ## 📦 Installation
 
 ```bash
-npm install watchman-js
+npm install @kartikgangil/watchman_js
 ```
 
 ## ⚙️ Usage Guide

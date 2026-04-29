@@ -1,6 +1,6 @@
 {
   "name": "@kartikgangil/watchman_js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "One authentication layer for every platform. Watchman JS is a developer-friendly OAuth library that provides a unified API for Google, GitHub, Facebook, Apple and more with minimal setup.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
