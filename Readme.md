@@ -36,11 +36,11 @@ npm install @kartikgangil/watchman_js
 #### Import Package
 ##### CommonJS
 ``` javascript
-const { GithubLogin, GithubCallback } = require("watchman-js");
+const { GithubLogin, GithubCallback } = require("@kartikgangil/watchman_js");
 ```
 ##### ES Modules
 ``` javascript
-import { GithubLogin, GithubCallback } from "watchman-js";
+import { GithubLogin, GithubCallback } from "@kartikgangil/watchman_js";
 ```
 ##### Initiate Login
 ``` javascript
@@ -69,7 +69,7 @@ app.get("/api/auth/github/callback", async (req, res) => {
 ### 🔐 Google Authentication
 ``` javascript
 // import package
-const { GoogleLogin, GoogleCallback } = require("watchman-js");
+const { GoogleLogin, GoogleCallback } = require("@kartikgangil/watchman_js");
 
 // initate login uisng google O'auth
 app.get("/google", (req, res) => {
@@ -97,7 +97,7 @@ app.get("/api/auth/google/callback", async (req, res) => {
 ### 🔐 LinkedIn Authentication
 ``` javascript
 // import package
-const { LinkedInLogin, LinkedInCallback } = require("watchman-js");
+const { LinkedInLogin, LinkedInCallback } = require("@kartikgangil/watchman_js");
 
 // initate login with Linked In 
 app.get("/linkedin", (req, res) => {
