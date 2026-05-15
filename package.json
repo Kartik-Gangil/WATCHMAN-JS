@@ -2,11 +2,18 @@
   "name": "@kartikgangil/watchman_js",
   "version": "1.0.6",
   "description": "One authentication layer for every platform. Watchman JS is a developer-friendly OAuth library that provides a unified API for Google, GitHub, Facebook, Apple and more with minimal setup.",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
   "keywords": [
     "authentication",
@@ -27,11 +34,14 @@
   "license": "ISC",
   "packageManager": "pnpm@10.12.3",
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.6.0",
-    "typescript": "^6.0.3"
+    "tsup": "^8.5.1",
+    "typescript": "~5.8.3"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "jsonwebtoken": "^9.0.3"
   },
   "repository": {

@@ -31,6 +31,203 @@ npm install @kartikgangil/watchman_js
 ```
 
 ## ⚙️ Usage Guide
+
+### Manual Authentication
+
+``` javascript
+// controllers/auth.controller.js
+
+const {
+  hashPassword,
+  comparePassword,
+} = require('@kartikgangil/watchman_js');
+
+const { GenToken } = require('@kartikgangil/watchman_js');
+
+
+// Dummy database
+const users = [];
+
+
+// SIGNUP
+const signup = async (req, res) => {
+  try {
+
+    const { name, email, password } = req.body;
+
+    // check existing user
+    const userExists = users.find(
+      (user) => user.email === email
+    );
+
+    if (userExists) {
+      return res.status(400).json({
+        success: false,
+        message: 'User already exists',
+      });
+    }
+
+    // hash password
+    const hashedPassword = await hashPassword(password);
+
+    // create user
+    const newUser = {
+      id: users.length + 1,
+      name,
+      email,
+      password: hashedPassword,
+    };
+
+    users.push(newUser);
+
+    // generate token
+    const token = await GenToken(
+      {
+        id: newUser.id,
+        email: newUser.email,
+      },
+      {
+        expiresIn: '7d',
+      }
+        "secret"
+    );
+
+    return res.status(201).json({
+      success: true,
+      message: 'Signup successful',
+      token,
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+      },
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: 'Signup failed',
+      error: error.message,
+    });
+
+  }
+};
+
+
+// LOGIN
+const login = async (req, res) => {
+  try {
+
+    const { email, password } = req.body;
+
+    // find user
+    const user = users.find(
+      (user) => user.email === email
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    // compare password
+    const isMatch = await comparePassword(
+      password,
+      user.password
+    );
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials',
+      });
+    }
+
+    // generate token
+    const token = await GenToken(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      {
+        expiresIn: '7d',
+      }
+        "secret"
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: 'Login failed',
+      error: error.message,
+    });
+
+  }
+};
+
+module.exports = {
+  signup,
+  login,
+};
+```
+
+#### Verify Token
+
+``` javascript
+const { VerifyToken } = require('@kartikgangil/watchman_js');
+
+// Middleware using VerifyToken
+const authMiddleware = async (req, res, next) => {
+  try {
+
+    // Get token from headers
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      return res.status(401).json({
+        success: false,
+        message: 'Token not provided',
+      });
+    }
+
+    // Extract token from:
+    // Bearer TOKEN
+    const token = authHeader.split(' ')[1];
+    const secret = process.env.JWT_SECRET;
+    // Verify token
+    const decoded = await VerifyToken(token , secret);
+
+    // Save decoded user data in request
+    req.user = decoded;
+
+    next();
+
+  } catch (error) {
+
+    return res.status(401).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+```
+
 ### 🔐 GitHub Authentication
 
 #### Import Package
